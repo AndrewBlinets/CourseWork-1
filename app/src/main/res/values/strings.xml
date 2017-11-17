@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">CourseProject</string>
     <string name="showInformation">Посмотреть</string>
+    <string name="education_card">Учебная карточка</string>
+    <string name="mark">Оценки</string>
+    <string name="admission">Допуски</string>
+    <string name="rating">Рейтинг</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>
