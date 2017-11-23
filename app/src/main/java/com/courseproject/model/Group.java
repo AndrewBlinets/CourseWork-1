@@ -2,32 +2,32 @@ package com.courseproject.model;
 
 public class Group extends BaseModel {
 
-    private String number;
-    private String facultu;
+    private String name;
+    private long idFacultu;
 
-    public Group(long id, String number, String facultu) {
+    public Group(long id, String name, long idFacultu) {
         super(id);
-        this.number = number;
-        this.facultu = facultu;
+        this.name = name;
+        this.idFacultu = idFacultu;
     }
 
     public Group() {
         super();
     }
 
-    public String getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFacultu() {
-        return facultu;
+    public long getIdFacultu() {
+        return idFacultu;
     }
 
-    public void setFacultu(String facultu) {
-        this.facultu = facultu;
+    public void setIdFacultu(long idFacultu) {
+        this.idFacultu = idFacultu;
     }
 }

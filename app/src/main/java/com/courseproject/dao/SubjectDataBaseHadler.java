@@ -8,19 +8,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.courseproject.constant.DataBaseConstant;
-import com.courseproject.model.Faculty;
-import com.courseproject.model.Group;
+import com.courseproject.model.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDataBaseHadler extends SQLiteOpenHelper implements InterfaseDataBaseHandler<Group> {
+public class SubjectDataBaseHadler extends SQLiteOpenHelper implements InterfaseDataBaseHandler<Subject> {
 
-    String NAME_TABLE  = "group";
+    String NAME_TABLE  = "subject";
 
     private final String KEY_NAME = "name";
     private final String KEY_ID = "_id";
-    private final String KEY_ID_FACULTY = "idfaculty";
 
 
     private final String SELECT_ALL = "SELECT * FROM ";
@@ -28,7 +26,7 @@ public class GroupDataBaseHadler extends SQLiteOpenHelper implements InterfaseDa
     private String  GET_BY_ID = SELECT_ALL + NAME_TABLE + " WHERE " + KEY_ID + " = ?";
     private String GET_ALL = SELECT_ALL + NAME_TABLE;
 
-    public GroupDataBaseHadler(Context context) {
+    public SubjectDataBaseHadler(Context context) {
         super(context, DataBaseConstant.DATABASE_NAME, null, DataBaseConstant.DataBaseVersion);
     }
 
@@ -37,8 +35,7 @@ public class GroupDataBaseHadler extends SQLiteOpenHelper implements InterfaseDa
         db.execSQL("create table " +
                 NAME_TABLE +
                 " ( " + KEY_ID + " integer primary key autoincrement, " +
-                KEY_NAME + " text, " +
-                KEY_ID_FACULTY + " integer " + " );");
+                KEY_NAME + " text " + " );");
     }
 
     @Override
@@ -48,37 +45,34 @@ public class GroupDataBaseHadler extends SQLiteOpenHelper implements InterfaseDa
     }
 
     @Override
-    public void add(Group group) {
+    public void add(Subject subject) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, group.getName());
-        values.put(KEY_ID_FACULTY, group.getIdFacultu());
+        values.put(KEY_NAME, subject.getName());
         db.insert(NAME_TABLE, null, values);
         db.close();
     }
 
     @Override
-    public Group getById(int id) {
+    public Subject getById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_ID, new String[]{String.valueOf(id)});
-        Group group = new Group();
+        Subject subject = new Subject();
         if(cursor.moveToFirst())
         {
             int idIndex = cursor.getColumnIndex(KEY_ID);
             int nameIndex = cursor.getColumnIndex(KEY_NAME);
-            int idFacultyIndex = cursor.getColumnIndex(KEY_ID_FACULTY);
-            group.setId(cursor.getInt(idIndex));
-            group.setName(cursor.getString(nameIndex));
-            group.setIdFacultu(cursor.getLong(idFacultyIndex));
+            subject.setId(cursor.getInt(idIndex));
+            subject.setName(cursor.getString(nameIndex));
         }
         cursor.close();
         db.close();
-        return group;
+        return subject;
     }
 
     @Override
-    public List<Group> getAll() {
-        List<Group> groups = new ArrayList<>();
+    public List<Subject> getAll() {
+        List<Subject> subjects = new ArrayList<>();
         String selectQuery = GET_ALL;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -88,16 +82,15 @@ public class GroupDataBaseHadler extends SQLiteOpenHelper implements InterfaseDa
             do {
                 int idIndex = cursor.getColumnIndex(KEY_ID);
                 int nameIndex = cursor.getColumnIndex(KEY_NAME);
-                int idFacultyIndex = cursor.getColumnIndex(KEY_ID_FACULTY);
-                groups.add(new Group(cursor.getInt(idIndex), cursor.getString(nameIndex), cursor.getLong(idFacultyIndex)));
+                subjects.add(new Subject(cursor.getInt(idIndex), cursor.getString(nameIndex)));
             } while (cursor.moveToNext());
         }
 
-        return groups;
+        return subjects;
     }
 
     @Override
-    public int update(Group group) {
+    public int update(Subject subject) {
         return 0;
     }
 

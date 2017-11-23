@@ -2,7 +2,7 @@ package com.courseproject.model;
 
 
 public class BaseModel {
-    private long id;
+    protected long id;
 
     public BaseModel(long id) {
         this.id = id;
