@@ -1,6 +1,7 @@
 package com.courseproject.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +52,61 @@ public class AdapterMark extends BaseAdapter {
             view.setTag(holder);
         } else
             holder = (ViewHolder) view.getTag();
-        if (position % 2 == 0)
-            view.setBackgroundColor(0xFFE6E6E6);
-        else
-            view.setBackgroundColor(0xFFE8E8E8);
         Mark obj = getItems(position);
-        holder.subject.setText(obj.getIdSubject()+"");
+        boolean flag = false;
+        if (obj.getMark().equals("не допуск") || obj.getMark().equals("не зачет"))
+        {
+            view.setBackgroundColor(Color.RED);
+            holder.subject.setTextColor(Color.WHITE);
+            holder.subject.setTextSize(20);
+            holder.markSubect.setTextColor(Color.WHITE);
+            holder.markSubect.setTextSize(20);
+            flag = true;
+        }
+        if (obj.getMark().equals("зачёт"))
+        {
+            view.setBackgroundColor(Color.GREEN);
+            holder.subject.setTextColor(Color.BLACK);
+            holder.subject.setTextSize(10);
+            holder.markSubect.setTextColor(Color.BLACK);
+            holder.markSubect.setTextSize(10);
+            flag = true;
+        }
+        try {
+            if (Integer.parseInt(obj.getMark()) < 4) {
+                view.setBackgroundColor(Color.RED);
+                holder.subject.setTextColor(Color.WHITE);
+                holder.subject.setTextSize(20);
+                holder.markSubect.setTextColor(Color.WHITE);
+                holder.markSubect.setTextSize(20);
+                flag = true;
+            }
+        }
+        catch (NumberFormatException e)
+        {}
+        try {
+            if (Integer.parseInt(obj.getMark()) > 3) {
+                view.setBackgroundColor(Color.GREEN);
+                holder.subject.setTextColor(Color.BLACK);
+                holder.subject.setTextSize(10);
+                holder.markSubect.setTextColor(Color.BLACK);
+                holder.markSubect.setTextSize(10);
+                flag = true;
+            }
+        }
+        catch (NumberFormatException e)
+        {}
+        if(!flag)
+        {
+            view.setBackgroundColor(0xFFE8E8E8);
+            holder.subject.setTextColor(Color.BLACK);
+            holder.subject.setTextSize(10);
+            holder.markSubect.setTextColor(Color.BLACK);
+            holder.markSubect.setTextSize(10);
+        }
+
+
+       // holder.subject.setText(obj.getSubject());
         holder.markSubect.setText(obj.getMark());
         return view;
     }

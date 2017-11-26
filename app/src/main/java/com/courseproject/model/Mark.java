@@ -2,34 +2,40 @@ package com.courseproject.model;
 
 public class Mark extends BaseModel{
 
-    private long idStudent;
-    private long idSubject;
+    private Student student;
+    private Subject subject;
     private String mark;
 
-    public Mark(long id, long idStudent, long idSubject, String mark) {
+    public Mark(long id, Student student, Subject subject, String mark) {
         super(id);
-        this.idStudent = idStudent;
-        this.idSubject = idSubject;
+        this.student = student;
+        this.subject = subject;
+        this.mark = mark;
+    }
+
+    public Mark(Student student, Subject subject, String mark) {
+        this.student = student;
+        this.subject = subject;
         this.mark = mark;
     }
 
     public Mark() {
     }
 
-    public long getIdStudent() {
-        return idStudent;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setIdStudent(long idStudent) {
-        this.idStudent = idStudent;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public long getIdSubject() {
-        return idSubject;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setIdSubject(long idSubject) {
-        this.idSubject = idSubject;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public String getMark() {

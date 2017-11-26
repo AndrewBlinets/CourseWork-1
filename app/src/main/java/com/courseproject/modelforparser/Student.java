@@ -1,4 +1,4 @@
-package com.courseproject.model;
+package com.courseproject.modelforparser;
 
 
 public class Student extends BaseModel {
@@ -6,16 +6,16 @@ public class Student extends BaseModel {
     private String name;
     private String surName;
     private String secondName;
-    private Group group;
+    private long idGroup;
     private String numberStudentCard;
     private String foto;
 
-    public Student(long id, String name, String surName, String secondName, Group group, String numberStudentCard, String foto) {
+    public Student(long id, String name, String surName, String secondName, long idGroup, String numberStudentCard, String foto) {
         super(id);
         this.name = name;
         this.surName = surName;
         this.secondName = secondName;
-        this.group = group;
+        this.idGroup = idGroup;
         this.numberStudentCard = numberStudentCard;
         this.foto = foto;
     }
@@ -47,12 +47,12 @@ public class Student extends BaseModel {
         this.secondName = secondName;
     }
 
-    public Group getGroup() {
-        return group;
+    public long getIdGroup() {
+        return idGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setIdGroup(long idGroup) {
+        this.idGroup = idGroup;
     }
 
     public String getNumberStudentCard() {

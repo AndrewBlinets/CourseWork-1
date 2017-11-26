@@ -1,16 +1,10 @@
-package com.courseproject.model;
+package com.courseproject.modelforparser;
 
-public class Subject extends BaseModel {
+public class Subject {
 
     private String name;
 
-    public Subject(long id, String name) {
-        super(id);
-        this.name = name;
-    }
-
     public Subject(String name) {
-        super();
         this.name = name;
     }
 

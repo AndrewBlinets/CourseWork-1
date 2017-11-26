@@ -8,39 +8,90 @@ import java.util.List;
 
 public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements InterfaseDataBaseHandler<T> {
 
-    protected String NAME_TABLE = "";
-
-    protected final String KEY_ID = "_id";
-
-    protected String CREATE_TABLE = "";
-
-    private final String SELECT_ALL = "SELECT * FROM ";
-    protected String GET_BY_ID ="";
-    protected String GET_ALL = "";
-    private String DELETE_TABLE = "";
     private static final String DATABASE_NAME = "dbCourseWork";
     private static final int DataBaseVersion = 1;
+    protected Context context;
+
+    // name table database
+    protected final String NAME_TABLE_GROUP = "groupstudent";
+    protected final String NAME_TABLE_MARK = "mark";
+    protected final String NAME_TABLE_SCHEDULE = "schedule";
+    protected final String NAME_TABLE_STUDENT = "student";
+    protected final String NAME_TABLE_SUBJECT = "SUBJECT";
+
+    //base constryction database
+    protected final String KEY_ID = "_id";
+    private final String TYPE_TEXT = " text ";
+    private final String TYPE_INTEGER = " integer ";
+    private final String COMMA = " , ";
+    protected final String SELECT_ALL = "SELECT * FROM ";
+    private String DELETE_TABLE = "DROP TABLE IF EXISTS ";
+
+    // base constryction to create table
+    private final String CREATE_TABEL = "create table ";
+    private final String ID_PRIMARY_KEY =  " ( " + KEY_ID + " integer primary key autoincrement, " ;
+    private final String END = " );";
+
+    // table group
+    protected final String KEY_NUMBER_GROUP = "numbergroup";
+    protected final String KEY_ID_FACULTY = "idfaculty";
+
+    // mark
+    protected final String KEY_MARK = "mark";
+    protected final String KEY_ID_STUDENT = "idstudent";
+    protected final String KEY_ID_SUBJECT = "idsubject";
+
+    // student
+    protected final String KEY_NAME_STUDENT = "name";
+    protected final String KEY_SURNAME_STUDENT = "surname";
+    protected final String KEY_SECOND_NAME_STUDENT = "secondname";
+    protected final String KEY_ID_GROUP = "idgroup";
+    protected final String KEY_NUMBER_STUDENT_CARD = "studcard";
+    protected final String KEY_FOTO = "foto";
+
+    // subject
+    protected final String KEY_NAME_SUBJECT = "name";
 
     private static int dataBaseVerson;
 
-    public BaseClassDataBaseHadler(Context context, String nameTable)
+    public BaseClassDataBaseHadler(Context context)
     {
         super(context, DATABASE_NAME, null, DataBaseVersion);
-        NAME_TABLE = nameTable;
+        this.context = context;
         dataBaseVerson = DataBaseVersion;
-        GET_BY_ID = SELECT_ALL + NAME_TABLE + " WHERE " + KEY_ID + " = ?";
-        GET_ALL = SELECT_ALL + NAME_TABLE;
-        DELETE_TABLE = "DROP TABLE IF EXISTS " + NAME_TABLE;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+        String s = CREATE_TABEL + NAME_TABLE_GROUP + ID_PRIMARY_KEY +
+                KEY_NUMBER_GROUP + TYPE_TEXT + COMMA +
+                KEY_ID_FACULTY + TYPE_INTEGER + END;
+        db.execSQL(CREATE_TABEL + NAME_TABLE_GROUP + ID_PRIMARY_KEY +
+                KEY_NUMBER_GROUP + TYPE_TEXT + COMMA +
+                KEY_ID_FACULTY + TYPE_INTEGER + END);
+        db.execSQL(CREATE_TABEL + NAME_TABLE_MARK + ID_PRIMARY_KEY +
+                    KEY_MARK + TYPE_TEXT + COMMA +
+                    KEY_ID_STUDENT + TYPE_INTEGER + COMMA +
+                    KEY_ID_SUBJECT + TYPE_INTEGER + END);
+        db.execSQL(CREATE_TABEL + NAME_TABLE_STUDENT + ID_PRIMARY_KEY +
+                    KEY_NAME_STUDENT + TYPE_TEXT + COMMA +
+                    KEY_SURNAME_STUDENT + TYPE_TEXT + COMMA +
+                    KEY_SECOND_NAME_STUDENT + TYPE_TEXT + COMMA +
+                    KEY_ID_GROUP + TYPE_INTEGER + COMMA +
+                    KEY_NUMBER_STUDENT_CARD + TYPE_TEXT + COMMA +
+                    KEY_FOTO + TYPE_TEXT + END);
+        db.execSQL(CREATE_TABEL + NAME_TABLE_SUBJECT + ID_PRIMARY_KEY +
+                    KEY_NAME_SUBJECT + TYPE_TEXT + END);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DELETE_TABLE);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_GROUP);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_MARK);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_STUDENT);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_SUBJECT);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_GROUP);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_GROUP);
         onCreate(db);
     }
 
@@ -50,7 +101,7 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
     }
 
     @Override
-    public T getById(int id) {
+    public T getById(long id) {
         return null;
     }
 

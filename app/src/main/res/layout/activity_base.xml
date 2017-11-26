@@ -6,12 +6,21 @@
     android:layout_height="match_parent"
     tools:context="com.courseproject.BaseActivity"
     android:background="#ede7e8">
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/load"
-        android:id="@+id/load"
-        android:onClick="onClick"/>
+        android:orientation="vertical">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/load"
+            android:id="@+id/load"
+            android:onClick="onClick" />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/message" />
+    </LinearLayout>
 
 
     <LinearLayout
@@ -46,8 +55,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/enter_number"
-                android:id="@+id/edit_text_nuber_studak"
-            />
+                android:id="@+id/edit_text_nuber_studak" />
         </LinearLayout>
         <Button
             android:layout_width="match_parent"

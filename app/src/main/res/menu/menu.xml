@@ -8,7 +8,7 @@
         <!--/>-->
 
     <item android:id="@+id/mark"
-        android:title="@string/mark"
+        android:title="@string/exem"
         android:orderInCategory="1"/>
         <!--android:icon="@drawable/ic_person_add_black_24dp"-->
 
