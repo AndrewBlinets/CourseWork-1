@@ -1,6 +1,10 @@
-package com.courseproject.model;
+package com.courseproject.model.mark;
 
-public class Mark extends BaseModel{
+import com.courseproject.model.BaseModel;
+import com.courseproject.model.Subject;
+import com.courseproject.model.student.Student;
+
+public class Mark extends BaseModel {
 
     private Student student;
     private Subject subject;

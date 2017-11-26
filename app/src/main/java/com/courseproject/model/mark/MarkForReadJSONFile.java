@@ -1,19 +1,21 @@
-package com.courseproject.modelforparser;
+package com.courseproject.model.mark;
 
-public class Mark extends BaseModel {
+import com.courseproject.model.BaseModel;
+
+public class MarkForReadJSONFile extends BaseModel {
 
     private long idStudent;
     private long idSubject;
     private String mark;
 
-    public Mark(long id, long idStudent, long idSubject, String mark) {
+    public MarkForReadJSONFile(long id, long idStudent, long idSubject, String mark) {
         super(id);
         this.idStudent = idStudent;
         this.idSubject = idSubject;
         this.mark = mark;
     }
 
-    public Mark() {
+    public MarkForReadJSONFile() {
     }
 
     public long getIdStudent() {

@@ -52,6 +52,14 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
     // subject
     protected final String KEY_NAME_SUBJECT = "name";
 
+    // schedule
+    protected final String KEY_NAME_DAY = "day";
+    protected final String KEY_WEEK = "week";
+    protected final String KEY_AUDITORY = "auditory";
+    protected final String KEY_START_LESSON = "starttime";
+    protected final String KEY_FINISH_LESSON = "finishtime";
+    protected final String KEY_LESSON_TYPE = "lessontupe";
+
     private static int dataBaseVerson;
 
     public BaseClassDataBaseHadler(Context context)
@@ -82,6 +90,15 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
                     KEY_FOTO + TYPE_TEXT + END);
         db.execSQL(CREATE_TABEL + NAME_TABLE_SUBJECT + ID_PRIMARY_KEY +
                     KEY_NAME_SUBJECT + TYPE_TEXT + END);
+        db.execSQL(CREATE_TABEL + NAME_TABLE_SCHEDULE + ID_PRIMARY_KEY +
+                    KEY_NAME_DAY + TYPE_TEXT + COMMA +
+                    KEY_WEEK + TYPE_TEXT + COMMA +
+                    KEY_ID_GROUP + TYPE_INTEGER + COMMA +
+                    KEY_AUDITORY + TYPE_TEXT + COMMA +
+                    KEY_START_LESSON + TYPE_TEXT + COMMA +
+                    KEY_FINISH_LESSON + TYPE_TEXT + COMMA +
+                    KEY_ID_SUBJECT + TYPE_INTEGER + COMMA +
+                    KEY_LESSON_TYPE + TYPE_TEXT + END);
     }
 
     @Override
@@ -90,8 +107,7 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
         db.execSQL(DELETE_TABLE + NAME_TABLE_MARK);
         db.execSQL(DELETE_TABLE + NAME_TABLE_STUDENT);
         db.execSQL(DELETE_TABLE + NAME_TABLE_SUBJECT);
-        db.execSQL(DELETE_TABLE + NAME_TABLE_GROUP);
-        db.execSQL(DELETE_TABLE + NAME_TABLE_GROUP);
+        db.execSQL(DELETE_TABLE + NAME_TABLE_SCHEDULE);
         onCreate(db);
     }
 

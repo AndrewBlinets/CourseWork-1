@@ -1,23 +1,39 @@
-package com.courseproject.modelforparser;
+package com.courseproject.model.student;
 
+
+import com.courseproject.model.BaseModel;
+import com.courseproject.model.Group;
 
 public class Student extends BaseModel {
 
     private String name;
     private String surName;
     private String secondName;
-    private long idGroup;
+    private Group group;
     private String numberStudentCard;
     private String foto;
 
-    public Student(long id, String name, String surName, String secondName, long idGroup, String numberStudentCard, String foto) {
+    public Student(long id, String name, String surName, String secondName, Group group, String numberStudentCard, String foto) {
         super(id);
         this.name = name;
         this.surName = surName;
         this.secondName = secondName;
-        this.idGroup = idGroup;
+        this.group = group;
         this.numberStudentCard = numberStudentCard;
         this.foto = foto;
+    }
+
+    public Student(String name, String surName, String secondName, Group group, String numberStudentCard, String foto) {
+        this.name = name;
+        this.surName = surName;
+        this.secondName = secondName;
+        this.group = group;
+        this.numberStudentCard = numberStudentCard;
+        this.foto = foto;
+    }
+
+    public Student(long id) {
+        super(id);
     }
 
     public Student() {
@@ -47,12 +63,12 @@ public class Student extends BaseModel {
         this.secondName = secondName;
     }
 
-    public long getIdGroup() {
-        return idGroup;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setIdGroup(long idGroup) {
-        this.idGroup = idGroup;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public String getNumberStudentCard() {

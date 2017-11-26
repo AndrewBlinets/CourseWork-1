@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.courseproject.model.Student;
+import com.courseproject.model.student.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ import java.util.List;
 
 public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
 
-    private String  GET_BY_ID = SELECT_ALL + NAME_TABLE_STUDENT + " WHERE " + KEY_ID + " = ?";
-    private String GET_ALL = SELECT_ALL + NAME_TABLE_STUDENT;
+    private String GET_BY_ID = SELECT_ALL + NAME_TABLE_STUDENT + " WHERE " + KEY_ID + " = ?";
+    private String GET_BY_STYDENT_CARD = SELECT_ALL + NAME_TABLE_STUDENT + " WHERE " + KEY_NUMBER_STUDENT_CARD + " = ?";
 
     public StudentDataBaseHadler(Context context) {
         super(context);
@@ -60,36 +60,9 @@ public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
         db.close();
         return student;
     }
-
-    @Override
-    public List<Student> getAll() {
-        List<Student> students = new ArrayList<>();
-        String selectQuery = GET_ALL;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int idIndex = cursor.getColumnIndex(KEY_ID_STUDENT);
-                int nameIndex = cursor.getColumnIndex(KEY_NAME_STUDENT);
-                int surNameIndex = cursor.getColumnIndex(KEY_SURNAME_STUDENT);
-                int secondNameIndex = cursor.getColumnIndex(KEY_SECOND_NAME_STUDENT);
-                int groupIdIndex = cursor.getColumnIndex(KEY_ID_GROUP);
-                int numberStudentCardIndex = cursor.getColumnIndex(KEY_NUMBER_STUDENT_CARD);
-                int fotoIndex = cursor.getColumnIndex(KEY_FOTO);
-                students.add(new Student(cursor.getInt(idIndex),
-                        cursor.getString(nameIndex),
-                        cursor.getString(surNameIndex),
-                        cursor.getString(secondNameIndex),
-                        new GroupDataBaseHadler(context).getById(cursor.getLong(groupIdIndex)),
-                        cursor.getString(numberStudentCardIndex),
-                        cursor.getString(fotoIndex)));
-            } while (cursor.moveToNext());
-        }
-
-        return students;
-    }
+     /*
+    * метод List<Student> getAll() не переопределяем
+    */
 
     @Override
     public int update(Student student) {
@@ -105,5 +78,19 @@ public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
     @Override
     public void deleteAll() {
         // TO DO
+    }
+
+    public long getByStydentCard(String stydentCard) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(GET_BY_STYDENT_CARD, new String[]{stydentCard});
+        long id = 0;
+        if(cursor.moveToFirst())
+        {
+            int idIndex = cursor.getColumnIndex(KEY_ID);
+            id = cursor.getInt(idIndex);
+        }
+        cursor.close();
+        db.close();
+        return id;
     }
 }

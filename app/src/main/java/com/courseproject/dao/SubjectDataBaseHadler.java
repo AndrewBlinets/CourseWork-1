@@ -13,8 +13,9 @@ import java.util.List;
 
 public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
 
-    private String  GET_BY_ID = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_ID + " = ?";
-    private String GET_ALL = SELECT_ALL + NAME_TABLE_SUBJECT;
+    private final String  GET_BY_ID = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_ID + " = ?";
+    private final String GET_ALL = SELECT_ALL + NAME_TABLE_SUBJECT;
+    private final String GET_BY_NAME = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_NAME_SUBJECT + " = ?";;
 
     public SubjectDataBaseHadler(Context context) {
         super(context);
@@ -79,5 +80,20 @@ public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
     @Override
     public void deleteAll() {
         // TO DO
+    }
+
+    public Subject getByName(String subjectName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(GET_BY_NAME, new String[]{subjectName});
+        Subject subject = null;
+        if(cursor.moveToFirst())
+        {
+            int idIndex = cursor.getColumnIndex(KEY_ID);
+            int nameIndex = cursor.getColumnIndex(KEY_NAME_SUBJECT);
+            subject = new Subject(cursor.getInt(idIndex), cursor.getString(nameIndex));
+        }
+        cursor.close();
+        db.close();
+        return subject;
     }
 }

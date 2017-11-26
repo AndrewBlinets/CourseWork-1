@@ -13,13 +13,6 @@
         <!--android:icon="@drawable/ic_person_add_black_24dp"-->
 
 
-
-    <item android:id="@+id/admission"
-        android:title="@string/admission"
-        android:orderInCategory="1"/>
-        <!-- android:icon="@drawable/ic_search_black_24dp"-->
-
-
     <item android:id="@+id/rating"
         android:title="@string/rating"
         android:orderInCategory="1" />

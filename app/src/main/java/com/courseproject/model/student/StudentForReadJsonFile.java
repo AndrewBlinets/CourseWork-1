@@ -1,26 +1,27 @@
-package com.courseproject.model;
+package com.courseproject.model.student;
 
+/**
+ * Created by Андрей on 26.11.2017.
+ */
 
-public class Student extends BaseModel {
-
+public class StudentForReadJsonFile {
     private String name;
     private String surName;
     private String secondName;
-    private Group group;
+    private long idGroup;
     private String numberStudentCard;
     private String foto;
 
-    public Student(long id, String name, String surName, String secondName, Group group, String numberStudentCard, String foto) {
-        super(id);
+    public StudentForReadJsonFile(String name, String surName, String secondName, long idGroup, String numberStudentCard, String foto) {
         this.name = name;
         this.surName = surName;
         this.secondName = secondName;
-        this.group = group;
+        this.idGroup = idGroup;
         this.numberStudentCard = numberStudentCard;
         this.foto = foto;
     }
 
-    public Student() {
+    public StudentForReadJsonFile() {
     }
 
     public String getName() {
@@ -47,12 +48,12 @@ public class Student extends BaseModel {
         this.secondName = secondName;
     }
 
-    public Group getGroup() {
-        return group;
+    public long getIdGroup() {
+        return idGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setIdGroup(long idGroup) {
+        this.idGroup = idGroup;
     }
 
     public String getNumberStudentCard() {

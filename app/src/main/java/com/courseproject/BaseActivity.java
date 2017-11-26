@@ -7,30 +7,45 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.courseproject.dao.SubjectDataBaseHadler;
-import com.courseproject.modelforparser.Subject;
+import com.courseproject.constants.ConstantsForIntent;
+import com.courseproject.dao.MarkDataBaseHadler;
+import com.courseproject.dao.ScheduleDataBaseHadler;
+import com.courseproject.dao.StudentDataBaseHadler;
+import com.courseproject.model.Group;
+import com.courseproject.model.Subject;
+import com.courseproject.model.mark.Mark;
+import com.courseproject.model.mark.MarkForReadJSONFile;
+import com.courseproject.model.mark.MarkList;
+import com.courseproject.model.schedules.DayClass;
+import com.courseproject.model.schedules.Schedules;
+import com.courseproject.model.student.Student;
+import com.courseproject.model.student.StudentForReadJsonFile;
+import com.courseproject.model.student.StudentList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BaseActivity extends Activity implements View.OnClickListener {
 
     private final int LAYOUT = R.layout.activity_base;
-    private List<String> subjectsName;
+    private Schedules schedules;
+    private StudentList students;
+    private MarkList marks;
+
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        setContentView(LAYOUT);
+        textView = (TextView)findViewById(R.id.message);
     }
 
     @Override
@@ -38,66 +53,106 @@ public class BaseActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.showInformation:
             {
-                SubjectDataBaseHadler subjectDataBaseHadler = new SubjectDataBaseHadler(this);
-                for (String str:subjectsName)
-                {
-                    subjectDataBaseHadler.add(new com.courseproject.model.Subject(str));
+                String stydentCard = ((EditText)findViewById(R.id.edit_text_nuber_studak)).getText().toString();
+                if(stydentCard.length() == 6) {
+                    StudentDataBaseHadler studentDataBaseHadler = new StudentDataBaseHadler(this);
+                    long id = studentDataBaseHadler.getByStydentCard(stydentCard);
+                    if(id != 0) {
+                        Intent intent = new Intent(this, MainPageUser.class);
+                        intent.putExtra(ConstantsForIntent.idStudent, id);
+                        this.startActivityForResult(intent,1);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Неверный номер", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                List<com.courseproject.model.Subject> list = subjectDataBaseHadler.getAll();
-                Intent intent = new Intent(this, MainPageUser.class);
-                this.startActivity(intent);
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Неверный номер", Toast.LENGTH_SHORT).show();
+                }
                 break;
             }
             case R.id.load:
             {
-               // ScheduleDataBaseHadler scheduleDataBaseHadler = new ScheduleDataBaseHadler(this);
-                //scheduleDataBaseHadler.add(new Schedule());
-              //  ((TextView)findViewById(R.id.message)).setText("Данные из файлов загружены.");
-                //getInformation();
                 ParserJsonClassSubject parserJsonClassSubject = new ParserJsonClassSubject();
                 parserJsonClassSubject.execute();
-                int a = 0;
-                a++;
-                a++;
                 break;
             }
         }
     }
 
-    public void getInformation() {
-        List<Subject> subjects = new ArrayList<>();
-        Type listType = new TypeToken<List<Subject>>() {}.getType();
-        File sdPath = Environment.getExternalStorageDirectory();
-        sdPath = new File(sdPath.getAbsolutePath() + "/" + "coursework");
-        sdPath.mkdirs();
-        File file = new File(sdPath, "sybject.json");
-        try (FileReader fileReader = new FileReader(file))
-        {
-            subjects = new Gson().fromJson(new JsonReader(fileReader), listType);
-        } catch (IOException e) {
-            Toast.makeText(this, "Упс! Что-то не так..." + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        Toast.makeText(this, subjects.get(0).toString(), Toast.LENGTH_SHORT).show();
-        ((EditText)findViewById(R.id.edit_text_nuber_studak)).setText(subjects.get(0).toString());
-    }
-
     public class ParserJsonClassSubject extends AsyncTask<Void, Void, Void > {
+
+        private String mesasgeAboutEror = "";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            textView.setText("Загрузка данных...");
+        }
 
         @Override
         protected Void doInBackground(Void... voids) {
-          //  List<String> subjectsa = new ArrayList<>();
-            Type listType = new TypeToken<List<String>>() {}.getType();
+            Type listTypeSchedule = new TypeToken<Schedules>() {}.getType();
+            Type listTypeStudent = new TypeToken<StudentList>() {}.getType();
+            Type listTypeMark = new TypeToken<MarkList>() {}.getType();
             File sdPath = Environment.getExternalStorageDirectory();
             sdPath = new File(sdPath.getAbsolutePath() + "/" + "coursework");
-            //sdPath.mkdirs();
-            File file = new File(sdPath, "sybject.json");
+            File file = new File(sdPath, "schedule.json");
             try (FileReader fileReader = new FileReader(file))
             {
-                subjectsName = new Gson().fromJson(new JsonReader(fileReader), listType);
-            } catch (IOException e) {
-
+                schedules = new Gson().fromJson(new JsonReader(fileReader), listTypeSchedule);
+            } catch (Exception e) {
+                mesasgeAboutEror += "Ошибка - расписание";
+            }
+            File fileStudent = new File(sdPath, "student.json");
+            try (FileReader fileReader = new FileReader(fileStudent))
+            {
+                students = new Gson().fromJson(new JsonReader(fileReader), listTypeStudent);
+            } catch (Exception e) {
+                mesasgeAboutEror += "Ошибка - студенты";
+            }
+            File fileMark = new File(sdPath, "mark.json");
+            try (FileReader fileReader = new FileReader(fileMark))
+            {
+                marks = new Gson().fromJson(new JsonReader(fileReader), listTypeMark);
+            } catch (Exception e) {
+                mesasgeAboutEror += "Ошибка - оценки";
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            loadToDB();
+            if(mesasgeAboutEror.length() == 0)
+            {
+                textView.setText("Данные загруженны успешно");
+            }
+            else
+            {
+                textView.setText(mesasgeAboutEror);
+            }
+        }
+    }
+
+    private void loadToDB() {
+        ScheduleDataBaseHadler scheduleDataBaseHadler = new ScheduleDataBaseHadler(this);
+        for (DayClass dayClass: schedules.getSchedules()) {
+            scheduleDataBaseHadler.add(dayClass);
+        }
+        StudentDataBaseHadler studentDataBaseHadler = new StudentDataBaseHadler(this);
+        for(StudentForReadJsonFile student: students.getStudents())
+        {
+            studentDataBaseHadler.add(new Student(student.getName(), student.getSurName(),
+                    student.getSecondName(),new Group(student.getIdGroup()), student.getNumberStudentCard(),
+                    student.getFoto()));
+        }
+        MarkDataBaseHadler markDataBaseHadler = new MarkDataBaseHadler(this);
+        for (MarkForReadJSONFile mark:marks.getMarks())
+        {
+            markDataBaseHadler.add(new Mark(new Student(mark.getIdStudent()), new Subject(mark.getIdSubject()), mark.getMark()));
         }
     }
 

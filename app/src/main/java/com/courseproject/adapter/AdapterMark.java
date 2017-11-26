@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.courseproject.R;
-import com.courseproject.model.Mark;
+import com.courseproject.model.mark.Mark;
 
 import java.util.List;
 
@@ -106,7 +106,7 @@ public class AdapterMark extends BaseAdapter {
         }
 
 
-       // holder.subject.setText(obj.getSubject());
+        holder.subject.setText(obj.getSubject().getName());
         holder.markSubect.setText(obj.getMark());
         return view;
     }

@@ -11,6 +11,16 @@ public class Group extends BaseModel {
         this.idFacultu = idFacultu;
     }
 
+    public Group(String name, long idFacultu) {
+        super();
+        this.name = name;
+        this.idFacultu = idFacultu;
+    }
+
+    public Group(long id) {
+        super(id);
+    }
+
     public Group() {
         super();
     }

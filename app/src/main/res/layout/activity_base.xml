@@ -53,8 +53,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:hint="@string/enter_number"
+                android:textColorHint="#e2e0e0"
                 android:id="@+id/edit_text_nuber_studak" />
         </LinearLayout>
         <Button

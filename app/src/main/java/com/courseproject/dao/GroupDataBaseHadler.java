@@ -15,6 +15,7 @@ public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
 
     private String  GET_BY_ID = SELECT_ALL + NAME_TABLE_GROUP + " WHERE " + KEY_ID + " = ?";
     private String GET_ALL = SELECT_ALL + NAME_TABLE_GROUP;
+    private String GET_BY_NUMBER = SELECT_ALL + NAME_TABLE_GROUP + " WHERE " + KEY_NUMBER_GROUP + " = ?";
 
     public GroupDataBaseHadler(Context context) {
         super(context);
@@ -83,5 +84,22 @@ public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
     @Override
     public void deleteAll() {
         // TO DO
+    }
+
+    public Group getGroupByNamber(String number)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(GET_BY_NUMBER, new String[]{number});
+        Group group = null;
+        if(cursor.moveToFirst())
+        {
+            int idIndex = cursor.getColumnIndex(KEY_ID);
+            int nameIndex = cursor.getColumnIndex(KEY_NUMBER_GROUP);
+            int idFacultyIndex = cursor.getColumnIndex(KEY_ID_FACULTY);
+            group = new Group(cursor.getInt(idIndex), cursor.getString(nameIndex), cursor.getLong(idFacultyIndex));
+        }
+        cursor.close();
+        db.close();
+        return group;
     }
 }

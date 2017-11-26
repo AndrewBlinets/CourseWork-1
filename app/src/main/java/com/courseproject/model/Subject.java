@@ -14,6 +14,10 @@ public class Subject extends BaseModel {
         this.name = name;
     }
 
+    public Subject(long id) {
+        super(id);
+    }
+
     public Subject() {
     }
 

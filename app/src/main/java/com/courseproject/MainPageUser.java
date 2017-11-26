@@ -1,5 +1,6 @@
 package com.courseproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.courseproject.constants.ConstantsForIntent;
 import com.courseproject.fragments.EducationCardFragment;
-import com.courseproject.fragments.FragmentAdmission;
+
 import com.courseproject.fragments.FragmentRating;
 import com.courseproject.fragments.FragmentMark;
 
@@ -25,6 +27,8 @@ public class MainPageUser extends AppCompatActivity
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
 
+    protected long id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +40,19 @@ public class MainPageUser extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        id = getIntent().getExtras().getLong(ConstantsForIntent.idStudent);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
-        try {
-            fragmentManager.beginTransaction().replace(R.id.flContent,
-                    (EducationCardFragment.class).newInstance()).commit();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        Fragment fragmentClass = new EducationCardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(ConstantsForIntent.idStudent, id);
+        fragmentClass.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragmentClass).commit();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.inflateMenu(R.menu.menu);
         navigationView.setNavigationItemSelectedListener(this);
+
 
     }
 
@@ -82,7 +86,7 @@ public class MainPageUser extends AppCompatActivity
             {
                 fragmentClass = new EducationCardFragment();
                 Bundle bundle = new Bundle();
-                //bundle.putString("id", id);
+                bundle.putLong(ConstantsForIntent.idStudent, id);
                 fragmentClass.setArguments(bundle);
                 break;
             }
@@ -90,13 +94,8 @@ public class MainPageUser extends AppCompatActivity
             {
                 fragmentClass = new FragmentMark();
                 Bundle bundle = new Bundle();
-               // bundle.putString("id", id);
+                bundle.putLong(ConstantsForIntent.idStudent, id);
                 fragmentClass.setArguments(bundle);
-                break;
-            }
-            case R.id.admission:
-            {
-                fragmentClass = new FragmentAdmission();
                 break;
             }
             case R.id.rating:
@@ -104,11 +103,12 @@ public class MainPageUser extends AppCompatActivity
                 fragmentClass = new FragmentRating();
                 break;
             }
-//            case R.id.exit_menu_navigation: {
-//                Intent intent = new Intent(this, MainActivityNotAutorizationUser.class);
-//                startActivity(intent);
-//                break;
-//            }
+            case R.id.exit: {
+
+                Intent intent = new Intent(this, BaseActivity.class);
+                setResult(RESULT_OK, intent);
+                break;
+            }
         }
 
 //        if(fragmentClass != null) {
