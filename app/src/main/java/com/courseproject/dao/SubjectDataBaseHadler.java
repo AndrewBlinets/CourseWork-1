@@ -7,10 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.courseproject.model.Subject;
-
-import java.util.ArrayList;
-import java.util.List;
-
+//класс для работы с предметами в БД
 public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
 
     private final String  GET_BY_ID = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_ID + " = ?";
@@ -22,7 +19,7 @@ public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
     }
 
     @Override
-    public void add(Subject subject) {
+    public void add(Subject subject) {// перопределенный метод
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME_SUBJECT, subject.getName());
@@ -31,7 +28,7 @@ public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
     }
 
     @Override
-    public Subject getById(long id) {
+    public Subject getById(long id) {// перопределенный метод
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_ID, new String[]{String.valueOf(id)});
         Subject subject = new Subject();
@@ -47,42 +44,7 @@ public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
         return subject;
     }
 
-    @Override
-    public List<Subject> getAll() {
-        List<Subject> subjects = new ArrayList<>();
-        String selectQuery = GET_ALL;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int idIndex = cursor.getColumnIndex(KEY_ID);
-                int nameIndex = cursor.getColumnIndex(KEY_NAME_SUBJECT);
-                subjects.add(new Subject(cursor.getLong(idIndex), cursor.getString(nameIndex)));
-            } while (cursor.moveToNext());
-        }
-
-        return subjects;
-    }
-
-    @Override
-    public int update(Subject subject) {
-        // TO DO
-        return 0;
-    }
-
-    @Override
-    public void deleteById(int id) {
-        // TO DO
-    }
-
-    @Override
-    public void deleteAll() {
-        // TO DO
-    }
-
-    public Subject getByName(String subjectName) {
+    public Subject getByName(String subjectName) { // получения объекта предмет по его названию
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_NAME, new String[]{subjectName});
         Subject subject = null;

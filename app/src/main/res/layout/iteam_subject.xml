@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/colorSubject"
+            android:textSize="@dimen/size"
+            android:layout_marginLeft="@dimen/marginColorBlock"
+            android:layout_marginRight="@dimen/marginColorBlock"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameSubject"
+            android:textSize="@dimen/sizeTextSubject"
+            android:paddingStart="@dimen/paddingTextSubject"
+            android:paddingTop="@dimen/paddingTextSubject"
+            android:paddingBottom="@dimen/paddingTextSubject"
+            android:layout_weight="16"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/start"
+                android:textSize="@dimen/sizeStartAndFinishLesson"
+                android:paddingTop="@dimen/paddingTopStartLesson" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/finish"
+                android:paddingTop="@dimen/paddingTopFinishLessin"
+                android:textSize="@dimen/sizeStartAndFinishLesson" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/auditory"
+            android:textSize="@dimen/sizeTextAuditory"
+            android:paddingStart="@dimen/paddingTextAuditory"
+            android:paddingTop="@dimen/paddingTextAuditory"
+            android:paddingBottom="@dimen/paddingTextAuditory"
+            />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

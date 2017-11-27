@@ -2,10 +2,7 @@ package com.courseproject.model.schedules;
 
 import java.util.List;
 
-/**
- * Created by Андрей on 26.11.2017.
- */
-
+// класс для работы с расписанием, каждый день может быть несколько разных пар
 public class DayClass {
     private String weekDay;
     private List<Schedule> schedule;

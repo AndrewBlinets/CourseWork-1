@@ -1,11 +1,7 @@
 package com.courseproject.model.schedules;
 
 import java.util.List;
-
-/**
- * Created by Андрей on 26.11.2017.
- */
-
+// класс для парсинга расписания
 public class Schedules {
     private List<DayClass> schedules;
 

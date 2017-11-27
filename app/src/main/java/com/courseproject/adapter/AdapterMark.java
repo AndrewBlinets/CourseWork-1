@@ -13,13 +13,13 @@ import com.courseproject.model.mark.Mark;
 
 import java.util.List;
 
-public class AdapterMark extends BaseAdapter {
+public class AdapterMark extends BaseAdapter { // адаптер для вывода списка в компоненту listView для списка оценок на экране экзамены, наследуемся от стандартного адаптра
 
     Context ctx;
     LayoutInflater lInflater;
     List<Mark> markList;
 
-    public AdapterMark(Context ctx, List<Mark> marks) {
+    public AdapterMark(Context ctx, List<Mark> marks) { // конструктор, устонавыливаем значения на все поля
         this.ctx = ctx;
         this.lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -44,7 +44,7 @@ public class AdapterMark extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        ViewHolder holder = new ViewHolder();
+        ViewHolder holder = new ViewHolder(); // инициализируем холдер
         if (view == null) {
             view = lInflater.inflate(R.layout.iteam_list_view_mark, parent, false);
             holder.subject = (TextView) view.findViewById(R.id.subject);
@@ -53,7 +53,7 @@ public class AdapterMark extends BaseAdapter {
         } else
             holder = (ViewHolder) view.getTag();
         Mark obj = getItems(position);
-        boolean flag = false;
+        boolean flag = false; // смотрим оценку и выводим в необходимом цветовом оттенке
         if (obj.getMark().equals("не допуск") || obj.getMark().equals("не зачет"))
         {
             view.setBackgroundColor(Color.RED);
@@ -81,7 +81,7 @@ public class AdapterMark extends BaseAdapter {
                 holder.markSubect.setTextSize(20);
                 flag = true;
             }
-        }
+        }// обрабатываем исключения, если оценка у нас в виде текста( зачет, не зачет, не допуск или просто пустое значение)
         catch (NumberFormatException e)
         {}
         try {
@@ -93,9 +93,9 @@ public class AdapterMark extends BaseAdapter {
                 holder.markSubect.setTextSize(10);
                 flag = true;
             }
-        }
+        }// обрабатываем исключения, если оценка у нас в виде текста( зачет, не зачет, не допуск или просто пустое значение)
         catch (NumberFormatException e)
-        {}
+        {}// если нечего подошло ставим стандартные цветовые оттенки
         if(!flag)
         {
             view.setBackgroundColor(0xFFE8E8E8);
@@ -105,7 +105,7 @@ public class AdapterMark extends BaseAdapter {
             holder.markSubect.setTextSize(10);
         }
 
-
+        // выстовляем значения
         holder.subject.setText(obj.getSubject().getName());
         holder.markSubect.setText(obj.getMark());
         return view;

@@ -1,11 +1,7 @@
 package com.courseproject.model.student;
 
 import java.util.List;
-
-/**
- * Created by Андрей on 26.11.2017.
- */
-
+// класс с поелм лист студентов для парсинга
 public class StudentList {
     private List<StudentForReadJsonFile> students;
 

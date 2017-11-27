@@ -1,10 +1,8 @@
 package com.courseproject.model.student;
 
-/**
- * Created by Андрей on 26.11.2017.
- */
-
-public class StudentForReadJsonFile {
+import com.courseproject.model.BaseModel;
+// аналогично как и с оценками
+public class StudentForReadJsonFile extends BaseModel {
     private String name;
     private String surName;
     private String secondName;
@@ -12,7 +10,8 @@ public class StudentForReadJsonFile {
     private String numberStudentCard;
     private String foto;
 
-    public StudentForReadJsonFile(String name, String surName, String secondName, long idGroup, String numberStudentCard, String foto) {
+    public StudentForReadJsonFile(long id,String name, String surName, String secondName, long idGroup, String numberStudentCard, String foto) {
+        super(id);
         this.name = name;
         this.surName = surName;
         this.secondName = secondName;

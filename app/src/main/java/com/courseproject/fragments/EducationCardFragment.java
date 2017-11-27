@@ -12,7 +12,7 @@ import com.courseproject.R;
 import com.courseproject.constants.ConstantsForIntent;
 import com.courseproject.dao.StudentDataBaseHadler;
 import com.courseproject.model.student.Student;
-
+//фрагмент для вывода основной информации о студента
 public class EducationCardFragment extends Fragment {
     private static final int LAYOUT = R.layout.fragment_education_card;
     private View view;
@@ -22,12 +22,11 @@ public class EducationCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(LAYOUT,container,false);
         Bundle bundle = this.getArguments();
-        Student student = new StudentDataBaseHadler(getContext()).getById(bundle.getLong(ConstantsForIntent.idStudent));
+        Student student = new StudentDataBaseHadler(getContext()).getById(bundle.getLong(ConstantsForIntent.idStudent));// получения инфы из БД
         ((TextView)view.findViewById(R.id.firstName)).setText(student.getName());
         ((TextView)view.findViewById(R.id.secondName)).setText(student.getSecondName());
         ((TextView)view.findViewById(R.id.surName)).setText(student.getSurName());
         ((TextView)view.findViewById(R.id.groupNumber)).setText(student.getGroup().getName());
-
         return view;
     }
 }

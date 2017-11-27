@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 
+// базовое активити, стартовое для приложения
 public class BaseActivity extends Activity implements View.OnClickListener {
 
     private final int LAYOUT = R.layout.activity_base;
@@ -49,11 +50,11 @@ public class BaseActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {// обработчик нажатия на кнопки
         switch (v.getId()) {
             case R.id.showInformation:
             {
-                String stydentCard = ((EditText)findViewById(R.id.edit_text_nuber_studak)).getText().toString();
+                String stydentCard = ((EditText)findViewById(R.id.edit_text_nuber_studak)).getText().toString();// чекаем студак
                 if(stydentCard.length() == 6) {
                     StudentDataBaseHadler studentDataBaseHadler = new StudentDataBaseHadler(this);
                     long id = studentDataBaseHadler.getByStydentCard(stydentCard);
@@ -75,34 +76,35 @@ public class BaseActivity extends Activity implements View.OnClickListener {
             }
             case R.id.load:
             {
-                ParserJsonClassSubject parserJsonClassSubject = new ParserJsonClassSubject();
+                ParserJsonClassSubject parserJsonClassSubject = new ParserJsonClassSubject();// парсим файлы
                 parserJsonClassSubject.execute();
                 break;
             }
         }
     }
 
+    // так как парсинг JSON это ресрсно затратная операция, его необходимо производить в отдельном потоке от UI
     public class ParserJsonClassSubject extends AsyncTask<Void, Void, Void > {
 
         private String mesasgeAboutEror = "";
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {//метод выполняющийся до начала основной работы класса
             super.onPreExecute();
             textView.setText("Загрузка данных...");
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            Type listTypeSchedule = new TypeToken<Schedules>() {}.getType();
+        protected Void doInBackground(Void... voids) {// парсинг
+            Type listTypeSchedule = new TypeToken<Schedules>() {}.getType();// указываем тип данных для парсинга
             Type listTypeStudent = new TypeToken<StudentList>() {}.getType();
             Type listTypeMark = new TypeToken<MarkList>() {}.getType();
-            File sdPath = Environment.getExternalStorageDirectory();
+            File sdPath = Environment.getExternalStorageDirectory();// открываем файл в памяти тела
             sdPath = new File(sdPath.getAbsolutePath() + "/" + "coursework");
             File file = new File(sdPath, "schedule.json");
             try (FileReader fileReader = new FileReader(file))
             {
-                schedules = new Gson().fromJson(new JsonReader(fileReader), listTypeSchedule);
+                schedules = new Gson().fromJson(new JsonReader(fileReader), listTypeSchedule);// читаем и парсим файл
             } catch (Exception e) {
                 mesasgeAboutEror += "Ошибка - расписание";
             }
@@ -124,7 +126,7 @@ public class BaseActivity extends Activity implements View.OnClickListener {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {// метод выполняемый после завершения основной работы класса(потока)
             loadToDB();
             if(mesasgeAboutEror.length() == 0)
             {
@@ -137,22 +139,36 @@ public class BaseActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void loadToDB() {
+    private void loadToDB() {// метод для записи данных в БД
         ScheduleDataBaseHadler scheduleDataBaseHadler = new ScheduleDataBaseHadler(this);
+        scheduleDataBaseHadler.deleteAll();
         for (DayClass dayClass: schedules.getSchedules()) {
             scheduleDataBaseHadler.add(dayClass);
         }
         StudentDataBaseHadler studentDataBaseHadler = new StudentDataBaseHadler(this);
         for(StudentForReadJsonFile student: students.getStudents())
-        {
-            studentDataBaseHadler.add(new Student(student.getName(), student.getSurName(),
-                    student.getSecondName(),new Group(student.getIdGroup()), student.getNumberStudentCard(),
-                    student.getFoto()));
+        {// чекаем есть ли студент с таким id
+            if (studentDataBaseHadler.getById(student.getId()) == null) {
+                studentDataBaseHadler.add(new Student(student.getId(), student.getName(), student.getSurName(),
+                        student.getSecondName(), new Group(student.getIdGroup()), student.getNumberStudentCard(),
+                        student.getFoto()));
+            }
+            else
+            {
+                studentDataBaseHadler.update(new Student(student.getId(), student.getName(), student.getSurName(),
+                        student.getSecondName(), new Group(student.getIdGroup()), student.getNumberStudentCard(),
+                        student.getFoto()));
+            }
         }
         MarkDataBaseHadler markDataBaseHadler = new MarkDataBaseHadler(this);
-        for (MarkForReadJSONFile mark:marks.getMarks())
-        {
-            markDataBaseHadler.add(new Mark(new Student(mark.getIdStudent()), new Subject(mark.getIdSubject()), mark.getMark()));
+        for (MarkForReadJSONFile mark:marks.getMarks()) {// чекаем есть ли оценки с таким id
+            if (markDataBaseHadler.getById(mark.getId()) == null) {
+                markDataBaseHadler.add(new Mark(mark.getId(), new Student(mark.getIdStudent()), new Subject(mark.getIdSubject()), mark.getMark()));
+            }
+            else
+            {
+                markDataBaseHadler.update(new Mark(mark.getId(), new Student(mark.getIdStudent()), new Subject(mark.getIdSubject()), mark.getMark()));
+            }
         }
     }
 

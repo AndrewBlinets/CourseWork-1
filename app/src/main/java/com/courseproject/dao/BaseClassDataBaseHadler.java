@@ -5,11 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.List;
-
+// базовый класс для работы с базой данных
 public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements InterfaseDataBaseHandler<T> {
 
-    private static final String DATABASE_NAME = "dbCourseWork";
-    private static final int DataBaseVersion = 1;
+    private static final String DATABASE_NAME = "dbCourseWork"; // название БД на теле
+    private static final int DataBaseVersion = 1;// версия БД
     protected Context context;
 
     // name table database
@@ -60,23 +60,18 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
     protected final String KEY_FINISH_LESSON = "finishtime";
     protected final String KEY_LESSON_TYPE = "lessontupe";
 
-    private static int dataBaseVerson;
 
     public BaseClassDataBaseHadler(Context context)
     {
         super(context, DATABASE_NAME, null, DataBaseVersion);
         this.context = context;
-        dataBaseVerson = DataBaseVersion;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        String s = CREATE_TABEL + NAME_TABLE_GROUP + ID_PRIMARY_KEY +
-                KEY_NUMBER_GROUP + TYPE_TEXT + COMMA +
-                KEY_ID_FACULTY + TYPE_INTEGER + END;
+    public void onCreate(SQLiteDatabase db) { // созадются таблицы в БД
         db.execSQL(CREATE_TABEL + NAME_TABLE_GROUP + ID_PRIMARY_KEY +
-                KEY_NUMBER_GROUP + TYPE_TEXT + COMMA +
-                KEY_ID_FACULTY + TYPE_INTEGER + END);
+                    KEY_NUMBER_GROUP + TYPE_TEXT + COMMA +
+                    KEY_ID_FACULTY + TYPE_INTEGER + END);
         db.execSQL(CREATE_TABEL + NAME_TABLE_MARK + ID_PRIMARY_KEY +
                     KEY_MARK + TYPE_TEXT + COMMA +
                     KEY_ID_STUDENT + TYPE_INTEGER + COMMA +
@@ -102,7 +97,7 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { // удаляются все таблицы  из бд и создаются занова
         db.execSQL(DELETE_TABLE + NAME_TABLE_GROUP);
         db.execSQL(DELETE_TABLE + NAME_TABLE_MARK);
         db.execSQL(DELETE_TABLE + NAME_TABLE_STUDENT);
@@ -110,6 +105,9 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
         db.execSQL(DELETE_TABLE + NAME_TABLE_SCHEDULE);
         onCreate(db);
     }
+
+    // Реализация  CRUD операуций для работы с БД,
+    // в нашем случае все необходимые нам операции были переопределены в наследуемых классах
 
     @Override
     public void add(T t) {
@@ -133,11 +131,9 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
 
     @Override
     public void deleteById(int id) {
-
     }
 
     @Override
     public void deleteAll() {
-
     }
 }

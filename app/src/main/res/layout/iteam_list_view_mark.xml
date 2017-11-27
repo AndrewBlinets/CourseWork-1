@@ -11,15 +11,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/subject"
             android:layout_weight="1"
-            android:textSize="20dp"
-            android:padding="20dp"/>
+            android:textSize="@dimen/sizeTextMarkIteam"
+            android:padding="@dimen/paddingTextMarkIteam"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:id="@+id/mark_subject"
             android:layout_gravity="center"
-            android:textSize="20dp"
-            android:padding="10dp"/>
+            android:textSize="@dimen/sizeTextMarkIteam"
+            android:padding="@dimen/paddingTextMarkIteam"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

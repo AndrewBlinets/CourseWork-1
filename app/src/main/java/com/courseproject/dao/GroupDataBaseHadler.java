@@ -10,9 +10,10 @@ import com.courseproject.model.Group;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// класс для работы с таблице group в бд
 public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
 
+    // неободимые SQL запросы
     private String  GET_BY_ID = SELECT_ALL + NAME_TABLE_GROUP + " WHERE " + KEY_ID + " = ?";
     private String GET_ALL = SELECT_ALL + NAME_TABLE_GROUP;
     private String GET_BY_NUMBER = SELECT_ALL + NAME_TABLE_GROUP + " WHERE " + KEY_NUMBER_GROUP + " = ?";
@@ -22,7 +23,7 @@ public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
     }
 
     @Override
-    public void add(Group group) {
+    public void add(Group group) { // перопределенный метод
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NUMBER_GROUP, group.getName());
@@ -32,7 +33,7 @@ public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
     }
 
     @Override
-    public Group getById(long id) {
+    public Group getById(long id) {// перопределенный метод
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_ID, new String[]{String.valueOf(id)});
         Group group = new Group();
@@ -51,7 +52,7 @@ public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
     }
 
     @Override
-    public List<Group> getAll() {
+    public List<Group> getAll() {// перопределенный метод
         List<Group> groups = new ArrayList<>();
         String selectQuery = GET_ALL;
 
@@ -70,24 +71,7 @@ public class GroupDataBaseHadler extends BaseClassDataBaseHadler<Group> {
         return groups;
     }
 
-    @Override
-    public int update(Group group) {
-        // TO DO
-        return 0;
-    }
-
-    @Override
-    public void deleteById(int id) {
-        // TO DO
-    }
-
-    @Override
-    public void deleteAll() {
-        // TO DO
-    }
-
-    public Group getGroupByNamber(String number)
-    {
+    public Group getGroupByNamber(String number){// метод для получения группы по номеру
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_NUMBER, new String[]{number});
         Group group = null;

@@ -15,7 +15,7 @@ import com.courseproject.dao.MarkDataBaseHadler;
 import com.courseproject.model.mark.Mark;
 
 import java.util.List;
-
+//фрагмент для отображеняи списка оценок студента
 public class FragmentMark extends Fragment {
 
     private static final int LAYOUT = R.layout.fragment_mark;
@@ -29,7 +29,7 @@ public class FragmentMark extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(LAYOUT,container,false);
         Bundle bundle = this.getArguments();
-        List<Mark> marks = new MarkDataBaseHadler(getContext()).getMarksByIdStudent(bundle.getLong(ConstantsForIntent.idStudent));
+        List<Mark> marks = new MarkDataBaseHadler(getContext()).getMarksByIdStudent(bundle.getLong(ConstantsForIntent.idStudent));// получения инфы по id студента
         adapterMark = new AdapterMark(getActivity(),marks);
         listView = (ListView)view.findViewById(R.id.listViewMark);
         listView.setAdapter(adapterMark);

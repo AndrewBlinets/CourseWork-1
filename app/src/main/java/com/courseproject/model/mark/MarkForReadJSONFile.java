@@ -1,12 +1,14 @@
 package com.courseproject.model.mark;
 
 import com.courseproject.model.BaseModel;
-
+// так как мы работаем с JSON файлами, и что б облегчить процесс их редактирования
+// и уменьшить объем информации в файле и ее дублирования, для парсинга с помощью библиотеки
+// необходим класс с соотвествующимии палями
 public class MarkForReadJSONFile extends BaseModel {
 
-    private long idStudent;
-    private long idSubject;
-    private String mark;
+    private long idStudent; // id студента
+    private long idSubject; // id предмета
+    private String mark; // оценка
 
     public MarkForReadJSONFile(long id, long idStudent, long idSubject, String mark) {
         super(id);

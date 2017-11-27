@@ -1,9 +1,8 @@
 package com.courseproject.model.student;
 
-
 import com.courseproject.model.BaseModel;
 import com.courseproject.model.Group;
-
+// класс студент с параметрами для его
 public class Student extends BaseModel {
 
     private String name;

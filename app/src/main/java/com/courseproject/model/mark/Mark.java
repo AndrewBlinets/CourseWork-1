@@ -3,12 +3,12 @@ package com.courseproject.model.mark;
 import com.courseproject.model.BaseModel;
 import com.courseproject.model.Subject;
 import com.courseproject.model.student.Student;
-
+// моель для работы с оценками
 public class Mark extends BaseModel {
 
-    private Student student;
-    private Subject subject;
-    private String mark;
+    private Student student;//студент
+    private Subject subject;// предмет
+    private String mark;//оценка
 
     public Mark(long id, Student student, Subject subject, String mark) {
         super(id);

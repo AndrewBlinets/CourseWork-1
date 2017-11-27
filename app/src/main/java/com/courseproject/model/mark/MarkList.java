@@ -1,11 +1,7 @@
 package com.courseproject.model.mark;
 
 import java.util.List;
-
-/**
- * Created by Андрей on 26.11.2017.
- */
-
+// класс с полем лист оценок, для парсинга файла
 public class MarkList {
 
     private List<MarkForReadJSONFile> marks;

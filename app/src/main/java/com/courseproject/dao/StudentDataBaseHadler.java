@@ -7,10 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.courseproject.model.student.Student;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
+// класс для работы со студентов в БД
 public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
 
     private String GET_BY_ID = SELECT_ALL + NAME_TABLE_STUDENT + " WHERE " + KEY_ID + " = ?";
@@ -21,9 +18,10 @@ public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
     }
 
     @Override
-    public void add(Student student) {
+    public void add(Student student) {// перопределенный метод
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_ID,student.getId());
         values.put(KEY_NAME_STUDENT, student.getName());
         values.put(KEY_SURNAME_STUDENT, student.getSurName());
         values.put(KEY_SECOND_NAME_STUDENT, student.getSecondName());
@@ -35,7 +33,7 @@ public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
     }
 
     @Override
-    public Student getById(long id) {
+    public Student getById(long id) {// перопределенный метод
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_ID, new String[]{String.valueOf(id)});
         Student student = new Student();
@@ -60,27 +58,20 @@ public class StudentDataBaseHadler extends BaseClassDataBaseHadler<Student> {
         db.close();
         return student;
     }
-     /*
-    * метод List<Student> getAll() не переопределяем
-    */
 
     @Override
-    public int update(Student student) {
-        // TO DO
-        return 0;
+    public int update(Student student) {// перопределенный метод
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + NAME_TABLE_STUDENT + " SET " + KEY_NAME_STUDENT + " = '" + student.getName() + "', " +
+                    KEY_SURNAME_STUDENT + " = '" + student.getSurName() + "', " +
+                    KEY_SECOND_NAME_STUDENT + " = '" + student.getSecondName() + "', " +
+                    KEY_ID_GROUP + " = '" + student.getGroup().getId() + "', " +
+                    KEY_NUMBER_STUDENT_CARD + " = '" + student.getNumberStudentCard() + "', " +
+                    KEY_FOTO + " = ''"  + " WHERE " + KEY_ID + " = " + student.getId());
+        return 1;
     }
 
-    @Override
-    public void deleteById(int id) {
-        // TO DO
-    }
-
-    @Override
-    public void deleteAll() {
-        // TO DO
-    }
-
-    public long getByStydentCard(String stydentCard) {
+    public long getByStydentCard(String stydentCard) {// получения инфы о студента по студаку
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_STYDENT_CARD, new String[]{stydentCard});
         long id = 0;

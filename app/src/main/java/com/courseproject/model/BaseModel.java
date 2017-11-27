@@ -1,6 +1,6 @@
 package com.courseproject.model;
 
-
+// базовый класс для всех можелй
 public class BaseModel {
     protected long id;
 

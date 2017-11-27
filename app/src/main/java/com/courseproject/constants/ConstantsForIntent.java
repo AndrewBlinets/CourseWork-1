@@ -1,9 +1,5 @@
 package com.courseproject.constants;
-
-/**
- * Created by Андрей on 26.11.2017.
- */
-
+// класс с константантами для передачи параметров между аактивити и фрагментами
 public class ConstantsForIntent {
     public static String idStudent = "student";
 }

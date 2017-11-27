@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="paddingTextAuditory">12dp</dimen>
+    <dimen name="sizeTextAuditory">24sp</dimen>
+    <dimen name="sizeStartAndFinishLesson">16sp</dimen>
+    <dimen name="paddingTopFinishLessin">4dp</dimen>
+    <dimen name="paddingTopStartLesson">8dp</dimen>
+    <dimen name="marginColorBlock">12dp</dimen>
+    <dimen name="size">20sp</dimen>
+    <dimen name="paddingTextSubject">12dp</dimen>
+    <dimen name="sizeTextSubject">24sp</dimen>
+    <dimen name="sizeTextMarkIteam">20sp</dimen>
+    <dimen name="paddingTextMarkIteam">10dp</dimen>
+    <dimen name="sizeTitleOnActivityMark">20sp</dimen>
+    <dimen name="paddingTitleOnActivityMark">10dp</dimen>
+</resources>

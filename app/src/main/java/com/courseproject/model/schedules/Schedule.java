@@ -1,7 +1,7 @@
 package com.courseproject.model.schedules;
 
 import java.util.List;
-
+// класс с полями для одной пары
 public class Schedule{
     private List<Integer> weekNumber;
     private List<String> studentGroup;
