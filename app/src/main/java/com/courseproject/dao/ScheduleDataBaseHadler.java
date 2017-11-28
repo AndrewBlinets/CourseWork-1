@@ -11,7 +11,7 @@ import com.courseproject.model.schedules.DayClass;
 import com.courseproject.model.schedules.Schedule;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 // класс для работы с расписанием в БД
@@ -34,7 +34,7 @@ public class ScheduleDataBaseHadler extends BaseClassDataBaseHadler<DayClass>{
         for (Schedule schedule : list) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            long idGroup = 0, idSubject = 0;
+            long idGroup, idSubject;
             Group group = groupDataBaseHadler.getGroupByNamber(schedule.getStudentGroup().get(0));
             if (group == null) {
                 groupDataBaseHadler.add(new Group(schedule.getStudentGroup().get(0), 1));
@@ -108,9 +108,9 @@ public class ScheduleDataBaseHadler extends BaseClassDataBaseHadler<DayClass>{
     // метод заполния листа, код вынесен в отдельный метод для улучшения читаемости кода и для не повторения одинаковой группы строк
     private void addElement(List<DayClass> schedule, Cursor cursor, int count, int weekNumberIndex, int idGroupIndex, int auditoryIndex, int startLessomIndex, int finishLessomIndex, int idSubjectIndex, int lessonTypeIndex) {
         schedule.get(count).getSchedule().add(new Schedule(
-                new ArrayList<Integer>(Arrays.asList(cursor.getInt(weekNumberIndex))),
-                new ArrayList<String>(Arrays.asList(cursor.getString(idGroupIndex))),
-                new ArrayList<String>(Arrays.asList(cursor.getString(auditoryIndex))),
+                new ArrayList<>(Collections.singletonList(cursor.getInt(weekNumberIndex))),
+                new ArrayList<>(Collections.singletonList(cursor.getString(idGroupIndex))),
+                new ArrayList<>(Collections.singletonList(cursor.getString(auditoryIndex))),
                 cursor.getString(startLessomIndex),
                 cursor.getString(finishLessomIndex),
                 subjectDataBaseHadler.getById(Integer.parseInt(cursor.getString(idSubjectIndex))).getName(),

@@ -13,7 +13,7 @@ import java.util.List;
 //  класс для работы с таблицей mark БД
 public class MarkDataBaseHadler extends BaseClassDataBaseHadler<Mark> {
     //необходимые SQL запросы
-    private final String GET_BY_ID_STUDENT = SELECT_ALL + NAME_TABLE_MARK + " WHERE " + KEY_ID_STUDENT + " = ?";;
+    private final String GET_BY_ID_STUDENT = SELECT_ALL + NAME_TABLE_MARK + " WHERE " + KEY_ID_STUDENT + " = ?";
     private String GET_BY_ID = SELECT_ALL + NAME_TABLE_MARK + " WHERE " + KEY_ID + " = ?";
 
     public MarkDataBaseHadler(Context context) {
@@ -55,12 +55,11 @@ public class MarkDataBaseHadler extends BaseClassDataBaseHadler<Mark> {
     }
 
     @Override
-    public int update(Mark mark) {// перопределенный метод
+    public void update(Mark mark) {// перопределенный метод
         SQLiteDatabase db = this.getWritableDatabase();
             db.execSQL("UPDATE " + NAME_TABLE_MARK + " SET " + KEY_MARK + " = '" + mark.getMark() + "', " +
                     KEY_ID_STUDENT + " = '" + mark.getStudent().getId() + "', " +
                     KEY_ID_SUBJECT + " = '" + mark.getSubject().getId() + "' WHERE " + KEY_ID + " = " + mark.getId());
-            return 1;
     }
 
     public List<Mark> getMarksByIdStudent(long id) {// получения оценок по id студента
@@ -79,6 +78,7 @@ public class MarkDataBaseHadler extends BaseClassDataBaseHadler<Mark> {
                         cursor.getString(markIndex)));
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return marks;
     }
 }

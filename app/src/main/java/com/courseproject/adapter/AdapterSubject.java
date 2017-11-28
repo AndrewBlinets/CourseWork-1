@@ -16,12 +16,10 @@ import java.util.List;
 
 public class AdapterSubject extends BaseAdapter {// адаптер для вывода списка в компоненту listView предметов для рассписания, наследуемся от стандартного адаптра
 
-    Context ctx;
-    LayoutInflater lInflater;
-    List<Schedule> scheduleList;
+    private LayoutInflater lInflater;
+    private List<Schedule> scheduleList;
 
     public AdapterSubject(Context ctx, List<Schedule> schedules) {
-        this.ctx = ctx;
         this.lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         scheduleList = schedules;
@@ -48,11 +46,11 @@ public class AdapterSubject extends BaseAdapter {// адаптер для выв
         ViewHolder holder = new ViewHolder();
         if (view == null) {
             view = lInflater.inflate(R.layout.iteam_subject, parent, false);
-            holder.subject = (TextView) view.findViewById(R.id.nameSubject);
-            holder.start = (TextView) view.findViewById(R.id.start);
-            holder.finish = (TextView) view.findViewById(R.id.finish);
-            holder.auditory = (TextView)view.findViewById(R.id.auditory);
-            holder.colorBlok = (TextView)view.findViewById(R.id.colorSubject);
+            holder.subject = view.findViewById(R.id.nameSubject);
+            holder.start = view.findViewById(R.id.start);
+            holder.finish = view.findViewById(R.id.finish);
+            holder.auditory = view.findViewById(R.id.auditory);
+            holder.colorBlok = view.findViewById(R.id.colorSubject);
             view.setTag(holder);
         } else
             holder = (ViewHolder) view.getTag();
@@ -77,7 +75,7 @@ public class AdapterSubject extends BaseAdapter {// адаптер для выв
     }
 
     public Schedule getItems(int position) {
-        return ((Schedule) scheduleList.get(position));
+        return scheduleList.get(position);
     }
 
     static class ViewHolder {

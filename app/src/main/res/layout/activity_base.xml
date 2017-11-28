@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,35 +26,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="40dp"
-        android:layout_margin="20dp">
+        android:padding="@dimen/paddingLayoutOnBaseActivity"
+        android:layout_margin="@dimen/marginLayyoutOnBaseActivitu">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="10dp">
+            android:paddingBottom="@dimen/padding">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher_background"
-                android:layout_margin="20dp"
+                android:layout_margin="@dimen/marginImageOnBaseActivity"
                 android:layout_gravity="center"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/number_studak"
-                android:textSize="20dp"
+                android:textSize="@dimen/textSizeTitleOnBaseActivity"
                 android:layout_gravity="center"
-                android:textColor="#3F51B5"/>
+                android:textColor="@color/colorTextOnBaseActivity"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:hint="@string/enter_number"
-                android:textColorHint="#e2e0e0"
+                android:textColorHint="@color/colorHintEditFroStudentCard"
                 android:id="@+id/edit_text_nuber_studak" />
         </LinearLayout>
         <Button
@@ -63,7 +62,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/showInformation"
             android:text="@string/showInformation"
-            android:textSize="20dp"
+            android:textSize="@dimen/textSizeMainButtonOnBaseActivity"
             android:onClick="onClick"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

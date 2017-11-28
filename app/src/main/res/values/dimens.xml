@@ -13,4 +13,18 @@
     <dimen name="paddingTextMarkIteam">10dp</dimen>
     <dimen name="sizeTitleOnActivityMark">20sp</dimen>
     <dimen name="paddingTitleOnActivityMark">10dp</dimen>
+    <dimen name="paddingLayoutOnBaseActivity">40dp</dimen>
+    <dimen name="marginLayyoutOnBaseActivitu">20dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="marginImageOnBaseActivity">20dp</dimen>
+    <dimen name="textSizeTitleOnBaseActivity">20sp</dimen>
+    <dimen name="textSizeMainButtonOnBaseActivity">20sp</dimen>
+    <dimen name="paddingTopLinearLayoutOnEducationCard">20dp</dimen>
+    <dimen name="heigthImageFoto">200dp</dimen>
+    <dimen name="textSizeStudentCard">30sp</dimen>
+    <dimen name="marginForTextOnStudentCard">10dp</dimen>
+    <dimen name="textSizeMessageAboutDayOff">40sp</dimen>
+    <dimen name="textSizeInSpinner">20sp</dimen>
+    <dimen name="paddingInSpinner">20dp</dimen>
+    <dimen name="marginInSpinner">10dp</dimen>
 </resources>

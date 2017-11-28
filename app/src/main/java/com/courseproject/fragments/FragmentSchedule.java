@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.courseproject.R;
 import com.courseproject.adapter.AdapterSubject;
@@ -17,6 +17,7 @@ import com.courseproject.constants.ConstantsForIntent;
 import com.courseproject.dao.ScheduleDataBaseHadler;
 import com.courseproject.dao.StudentDataBaseHadler;
 import com.courseproject.model.schedules.DayClass;
+import com.courseproject.model.schedules.Schedule;
 import com.courseproject.model.student.Student;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class FragmentSchedule extends android.support.v4.app.Fragment {
 
     AdapterSubject adapterSubject;
     ListView listView;
+    TextView dayOff;
 
     final Date date = new Date();
 
@@ -41,38 +43,47 @@ public class FragmentSchedule extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(LAYOUT, container, false);
+        dayOff = view.findViewById(R.id.dayOff);
         Bundle bundle = this.getArguments();
-        List<DayClass> schedules = new ArrayList<>();
+        List<DayClass> schedules;
+        final int[] numberDay = {date.getDay()};
+        final int[] numberWeek = {getNumberstudyweek()};
         final Student student = new StudentDataBaseHadler(getContext())
                 .getById(bundle.getLong(ConstantsForIntent.idStudent));// получения инфы о студенте из БД
         schedules = new ScheduleDataBaseHadler(getContext()).getSchedule(student.getGroup().getId(),
-                stringDay[date.getDay()],getNumberstudyweek());// получения инфы о сегодняшнем расписании
+                stringDay[numberDay[0]], numberWeek[0]);// получения инфы о сегодняшнем расписании
         try {
             adapterSubject = new AdapterSubject(getActivity(),schedules.get(0).getSchedule());
-            listView = (ListView)view.findViewById(R.id.listSchedule);
-            listView.setAdapter(adapterSubject);
+            dayOff.setText("");
         }// если сегодня нету пар, масив будет пустым, перехватываем это с помощью исключения и выводим сообщения об выходном
         catch (IndexOutOfBoundsException e)
         {
-            Toast.makeText(getContext(), "Выходной", Toast.LENGTH_SHORT).show();
+            adapterSubject = new AdapterSubject(getActivity(),new ArrayList<Schedule>());
+            dayOff.setText("Выходной");
         }
+        listView = view.findViewById(R.id.listSchedule);
+        listView.setAdapter(adapterSubject);
         //выподающий список для дней недели
-        ArrayAdapter<String> adapterDay = new ArrayAdapter<String>(getContext(), R.layout.my_spinner_iteam, stringDay);// создаем адаптер
+        ArrayAdapter<String> adapterDay = new ArrayAdapter<>(getContext(), R.layout.my_spinner_iteam, stringDay);// создаем адаптер
         adapterDay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner spinnerDay = (Spinner) view.findViewById(R.id.day);// указваем где находится выподающий список
+        Spinner spinnerDay = view.findViewById(R.id.day);// указваем где находится выподающий список
         spinnerDay.setAdapter(adapterDay);// указываем адаптер
-        spinnerDay.setSelection(date.getDay());// текущий день
+        spinnerDay.setSelection(numberDay[0]);// текущий день
         spinnerDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//обработчик нажания
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     AdapterSubject adapterSubjectNew = new AdapterSubject(getActivity(),(new ScheduleDataBaseHadler(getContext()).getSchedule(student.getGroup().getId(),
-                            stringDay[position],getNumberstudyweek())).get(0).getSchedule()); // создаем адаптер для отображения реузльатов
+                            stringDay[position], numberWeek[0])).get(0).getSchedule()); // создаем адаптер для отображения реузльатов
                     listView.setAdapter(adapterSubjectNew);
+                    dayOff.setText("");
+                    numberDay[0] = position;
                 }// если сегодня нету пар, масив будет пустым, перехватываем это с помощью исключения и выводим сообщения об выходном
                 catch (IndexOutOfBoundsException e)
                 {
-                    Toast.makeText(getContext(), "Выходной", Toast.LENGTH_SHORT).show();
+                    AdapterSubject adapterSubjectNew = new AdapterSubject(getActivity(),new ArrayList<Schedule>()); // создаем адаптер для отображения реузльатов
+                    listView.setAdapter(adapterSubjectNew);
+                    dayOff.setText("Выходной");
                 }
             }
             @Override
@@ -80,23 +91,27 @@ public class FragmentSchedule extends android.support.v4.app.Fragment {
             }
         });
         //выподающий список для номера недели, смотри выше
-        ArrayAdapter<String> adapterWeek = new ArrayAdapter<String>(getContext(), R.layout.my_spinner_iteam, week);
+        ArrayAdapter<String> adapterWeek = new ArrayAdapter<>(getContext(), R.layout.my_spinner_iteam, week);
         adapterWeek.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner spinnerWeek = (Spinner) view.findViewById(R.id.week);
+        Spinner spinnerWeek = view.findViewById(R.id.week);
         spinnerWeek.setAdapter(adapterWeek);
-        spinnerWeek.setSelection(getNumberstudyweek() - 1);
+        spinnerWeek.setSelection(numberWeek[0] - 1);
         spinnerWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     AdapterSubject adapterSubjectNew = new AdapterSubject(getActivity(),
                             (new ScheduleDataBaseHadler(getContext()).getSchedule(student.getGroup().getId(),
-                                    stringDay[date.getDay()],position + 1)).get(0).getSchedule());
+                                    stringDay[numberDay[0]],position + 1)).get(0).getSchedule());
+                    numberWeek[0] = position + 1;
                     listView.setAdapter(adapterSubjectNew);
+                    dayOff.setText("");
                 }
                 catch (IndexOutOfBoundsException e)
                 {
-                    Toast.makeText(getContext(), "Выходной", Toast.LENGTH_SHORT).show();
+                    AdapterSubject adapterSubjectNew = new AdapterSubject(getActivity(),new ArrayList<Schedule>()); // создаем адаптер для отображения реузльатов
+                    listView.setAdapter(adapterSubjectNew);
+                    dayOff.setText("Выходной");
                 }
             }
             @Override

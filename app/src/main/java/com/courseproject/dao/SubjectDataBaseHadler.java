@@ -12,7 +12,7 @@ public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
 
     private final String  GET_BY_ID = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_ID + " = ?";
     private final String GET_ALL = SELECT_ALL + NAME_TABLE_SUBJECT;
-    private final String GET_BY_NAME = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_NAME_SUBJECT + " = ?";;
+    private final String GET_BY_NAME = SELECT_ALL + NAME_TABLE_SUBJECT + " WHERE " + KEY_NAME_SUBJECT + " = ?";
 
     public SubjectDataBaseHadler(Context context) {
         super(context);
@@ -31,11 +31,12 @@ public class SubjectDataBaseHadler extends BaseClassDataBaseHadler<Subject> {
     public Subject getById(long id) {// перопределенный метод
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_BY_ID, new String[]{String.valueOf(id)});
-        Subject subject = new Subject();
+        Subject subject = null;
         if(cursor.moveToFirst())
         {
             int idIndex = cursor.getColumnIndex(KEY_ID);
             int nameIndex = cursor.getColumnIndex(KEY_NAME_SUBJECT);
+            subject = new Subject();
             subject.setId(cursor.getInt(idIndex));
             subject.setName(cursor.getString(nameIndex));
         }

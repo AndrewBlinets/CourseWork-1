@@ -6,7 +6,7 @@ interface InterfaseDataBaseHandler<T> {
     void add(T t); //create
     T  getById(long id);//read
     List<T> getAll();//read
-    int update(T t);//update
+    void update(T t);//update
     void deleteById(int id);//delete
     void deleteAll();//delete
 }

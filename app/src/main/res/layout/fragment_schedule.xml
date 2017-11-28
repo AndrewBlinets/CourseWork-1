@@ -2,6 +2,12 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/dayOff"
+        android:textSize="@dimen/textSizeMessageAboutDayOff"/>
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
@@ -20,7 +26,7 @@
                 android:id="@+id/week"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="2">
             </Spinner>
        </LinearLayout>
         <ListView

@@ -46,7 +46,7 @@ public class BaseActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
-        textView = (TextView)findViewById(R.id.message);
+        textView = findViewById(R.id.message);
     }
 
     @Override
@@ -56,7 +56,9 @@ public class BaseActivity extends Activity implements View.OnClickListener {
             {
                 String stydentCard = ((EditText)findViewById(R.id.edit_text_nuber_studak)).getText().toString();// чекаем студак
                 if(stydentCard.length() == 6) {
-                    StudentDataBaseHadler studentDataBaseHadler = new StudentDataBaseHadler(this);
+                    try{
+                        StudentDataBaseHadler studentDataBaseHadler = new StudentDataBaseHadler(this);
+
                     long id = studentDataBaseHadler.getByStydentCard(stydentCard);
                     if(id != 0) {
                         Intent intent = new Intent(this, MainPageUser.class);
@@ -65,7 +67,12 @@ public class BaseActivity extends Activity implements View.OnClickListener {
                     }
                     else
                     {
-                        Toast.makeText(getApplicationContext(), "Неверный номер", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Неверный номер bD" + studentDataBaseHadler.getById(0).getName(), Toast.LENGTH_SHORT).show();
+                    }
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
@@ -96,32 +103,32 @@ public class BaseActivity extends Activity implements View.OnClickListener {
 
         @Override
         protected Void doInBackground(Void... voids) {// парсинг
-            Type listTypeSchedule = new TypeToken<Schedules>() {}.getType();// указываем тип данных для парсинга
-            Type listTypeStudent = new TypeToken<StudentList>() {}.getType();
-            Type listTypeMark = new TypeToken<MarkList>() {}.getType();
-            File sdPath = Environment.getExternalStorageDirectory();// открываем файл в памяти тела
-            sdPath = new File(sdPath.getAbsolutePath() + "/" + "coursework");
-            File file = new File(sdPath, "schedule.json");
-            try (FileReader fileReader = new FileReader(file))
-            {
-                schedules = new Gson().fromJson(new JsonReader(fileReader), listTypeSchedule);// читаем и парсим файл
-            } catch (Exception e) {
-                mesasgeAboutEror += "Ошибка - расписание";
-            }
-            File fileStudent = new File(sdPath, "student.json");
-            try (FileReader fileReader = new FileReader(fileStudent))
-            {
-                students = new Gson().fromJson(new JsonReader(fileReader), listTypeStudent);
-            } catch (Exception e) {
-                mesasgeAboutEror += "Ошибка - студенты";
-            }
-            File fileMark = new File(sdPath, "mark.json");
-            try (FileReader fileReader = new FileReader(fileMark))
-            {
-                marks = new Gson().fromJson(new JsonReader(fileReader), listTypeMark);
-            } catch (Exception e) {
-                mesasgeAboutEror += "Ошибка - оценки";
-            }
+                Type listTypeSchedule = new TypeToken<Schedules>() {
+                }.getType();// указываем тип данных для парсинга
+                Type listTypeStudent = new TypeToken<StudentList>() {
+                }.getType();
+                Type listTypeMark = new TypeToken<MarkList>() {
+                }.getType();
+                File sdPath = Environment.getExternalStorageDirectory();// открываем файл в памяти тела
+                sdPath = new File(sdPath.getAbsolutePath() + "/" + "coursework");
+                File file = new File(sdPath, "schedule.json");
+                try (FileReader fileReader = new FileReader(file)) {
+                    schedules = new Gson().fromJson(new JsonReader(fileReader), listTypeSchedule);// читаем и парсим файл
+                } catch (Exception e) {
+                    mesasgeAboutEror += "Ошибка - расписание";
+                }
+                File fileStudent = new File(sdPath, "student.json");
+                try (FileReader fileReader = new FileReader(fileStudent)) {
+                    students = new Gson().fromJson(new JsonReader(fileReader), listTypeStudent);
+                } catch (Exception e) {
+                    mesasgeAboutEror += "Ошибка - студенты";
+                }
+                File fileMark = new File(sdPath, "mark.json");
+                try (FileReader fileReader = new FileReader(fileMark)) {
+                    marks = new Gson().fromJson(new JsonReader(fileReader), listTypeMark);
+                } catch (Exception e) {
+                    mesasgeAboutEror += "Ошибка - оценки";
+                }
             return null;
         }
 
@@ -152,7 +159,7 @@ public class BaseActivity extends Activity implements View.OnClickListener {
                 studentDataBaseHadler.add(new Student(student.getId(), student.getName(), student.getSurName(),
                         student.getSecondName(), new Group(student.getIdGroup()), student.getNumberStudentCard(),
                         student.getFoto()));
-            }
+                }
             else
             {
                 studentDataBaseHadler.update(new Student(student.getId(), student.getName(), student.getSurName(),

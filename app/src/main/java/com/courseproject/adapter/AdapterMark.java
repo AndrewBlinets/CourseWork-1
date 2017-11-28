@@ -15,12 +15,10 @@ import java.util.List;
 
 public class AdapterMark extends BaseAdapter { // адаптер для вывода списка в компоненту listView для списка оценок на экране экзамены, наследуемся от стандартного адаптра
 
-    Context ctx;
-    LayoutInflater lInflater;
-    List<Mark> markList;
+    private LayoutInflater lInflater;
+    private List<Mark> markList;
 
     public AdapterMark(Context ctx, List<Mark> marks) { // конструктор, устонавыливаем значения на все поля
-        this.ctx = ctx;
         this.lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         markList = marks;
@@ -47,8 +45,8 @@ public class AdapterMark extends BaseAdapter { // адаптер для выво
         ViewHolder holder = new ViewHolder(); // инициализируем холдер
         if (view == null) {
             view = lInflater.inflate(R.layout.iteam_list_view_mark, parent, false);
-            holder.subject = (TextView) view.findViewById(R.id.subject);
-            holder.markSubect = (TextView) view.findViewById(R.id.mark_subject);
+            holder.subject = view.findViewById(R.id.subject);
+            holder.markSubect = view.findViewById(R.id.mark_subject);
             view.setTag(holder);
         } else
             holder = (ViewHolder) view.getTag();
@@ -112,7 +110,7 @@ public class AdapterMark extends BaseAdapter { // адаптер для выво
     }
 
     public Mark getItems(int position) {
-        return ((Mark) markList.get(position));
+        return markList.get(position);
     }
 
     static class ViewHolder {

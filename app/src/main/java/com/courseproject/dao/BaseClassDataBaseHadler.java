@@ -125,8 +125,7 @@ public class BaseClassDataBaseHadler<T> extends SQLiteOpenHelper implements Inte
     }
 
     @Override
-    public int update(T t) {
-        return 0;
+    public void update(T t) {
     }
 
     @Override
